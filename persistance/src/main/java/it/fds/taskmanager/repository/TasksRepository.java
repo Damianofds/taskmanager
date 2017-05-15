@@ -1,0 +1,12 @@
+package it.fds.taskmanager.repository;
+
+import java.util.UUID;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import it.fds.taskmanager.model.Task;
+
+public interface TasksRepository  extends JpaRepository<Task,Long> {
+
+	Task findByUuid(UUID uuid);
+}
