@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>it.fds.toolbox</groupId>
+		<groupId>it.fds.taskmanager</groupId>
 		<artifactId>mvn-spring-project</artifactId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
 
-	<groupId>it.fds.toolbox</groupId>
+	<groupId>it.fds.taskmanager</groupId>
 	<artifactId>scheduler</artifactId>
 	<packaging>jar</packaging>
 	<version>0.1-SNAPSHOT</version>
@@ -22,11 +22,11 @@
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
         <dependency>
-			<groupId>it.fds.toolbox</groupId>
+			<groupId>it.fds.taskmanager</groupId>
 			<artifactId>persistance</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>it.fds.toolbox</groupId>
+			<groupId>it.fds.taskmanager</groupId>
 			<artifactId>services</artifactId>
 		</dependency>
         

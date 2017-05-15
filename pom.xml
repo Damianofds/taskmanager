@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>it.fds.toolbox</groupId>
+	<groupId>it.fds.taskmanager</groupId>
 	<artifactId>mvn-spring-project</artifactId>
 	<packaging>pom</packaging>
 	<version>0.1-SNAPSHOT</version>
@@ -12,18 +12,11 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
-	
-	<modules>
-		<module>endpoints</module>
-		<module>services</module>
-        <module>persistance</module>
-        <module>scheduler</module>
-	</modules>
 
 	<scm>
-		<connection>scm:git@github.com:Damianofds/toolbox.git</connection>
-		<developerConnection>scm:git@github.com:Damianofds/toolbox.git</developerConnection>
-		<url>https://github.com/Damianofds/toolbox</url>
+		<connection>scm:git@github.com:Damianofds/taskmanager.git</connection>
+		<developerConnection>scm:git@github.com:Damianofds/taskmanager.git</developerConnection>
+		<url>https://github.com/Damianofds/taskmanager</url>
 	</scm>
 
 	<licenses>
@@ -78,22 +71,22 @@
 
             <!-- Project modules dependencies-->
             <dependency>
-                <groupId>it.fds.toolbox</groupId>
+                <groupId>it.fds.taskmanager</groupId>
                 <artifactId>endpoints</artifactId>
                 <version>0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
-                <groupId>it.fds.toolbox</groupId>
+                <groupId>it.fds.taskmanager</groupId>
                 <artifactId>services</artifactId>
                 <version>0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
-                <groupId>it.fds.toolbox</groupId>
+                <groupId>it.fds.taskmanager</groupId>
                 <artifactId>persistance</artifactId>
                 <version>0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
-                <groupId>it.fds.toolbox</groupId>
+                <groupId>it.fds.taskmanager</groupId>
                 <artifactId>scheduler</artifactId>
                 <version>0.1-SNAPSHOT</version>
             </dependency>
@@ -189,24 +182,81 @@
 		</dependencies>
 	</dependencyManagement>
 	
+    <profiles>
+        <profile>
+            <id>web</id>
+            <activation>
+                <property>
+                    <name>web</name>
+                </property>
+            </activation>
+
+            <modules>
+                <module>endpoints</module>
+                <module>services</module>
+                <module>persistance</module>
+            </modules>
+            
+            <build>
+                <plugins>
+                    <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>1.2.6.RELEASE</version>
+                    <configuration>
+                        <mainClass>it.fds.taskmanager.EndpointsMain</mainClass>
+                        <layout>ZIP</layout>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>repackage</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                </plugins>
+            </build>
+
+        </profile>
+
+        <profile>
+            <id>scheduler</id>
+            <activation>
+                <property>
+                    <name>scheduler</name>
+                </property>
+            </activation>
+
+            <modules>
+                <module>scheduler</module>
+            </modules>
+            
+            <build>
+                <plugins>
+                    <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>1.2.6.RELEASE</version>
+                    <configuration>
+                        <mainClass>it.fds.taskmanager.SchedulerMain</mainClass>
+                        <layout>ZIP</layout>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>repackage</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+    
 	<build>
 		<plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>1.2.6.RELEASE</version>
-                <configuration>
-                    <mainClass>it.fds.toolbox.Start</mainClass>
-                    <layout>ZIP</layout>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -224,11 +274,6 @@
 	</build>
 
 	<repositories>
-		<repository>
-			<id>osgeo</id>
-			<name>Open Source Geospatial Foundation Repository</name>
-			<url>http://download.osgeo.org/webdav/geotools/</url>
-		</repository>
         <repository>
             <id>spring-releases</id>
             <url>https://repo.spring.io/libs-release</url>
