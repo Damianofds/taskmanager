@@ -69,10 +69,6 @@
 
 		<!-- test stuff -->
 		<dependency>
-			<groupId>org.geotools</groupId>
-			<artifactId>gt-sample-data</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
