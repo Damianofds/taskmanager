@@ -1,8 +1,9 @@
 package it.fds.taskmanager.rest.endpoints;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,26 +25,26 @@ public class TasksController {
 	private TaskService taskService;
     
 	@RequestMapping("/list")
-    public String list() {
+    public List<TaskDTO> list() {
 		LOGGER.info("Serving GET /task/list endpoint...");
 		StringBuilder sb = new StringBuilder();
+		List<TaskDTO> outlist = new LinkedList<>();
 		for(TaskDTO t : taskService.findAll()){
 			sb.append(t.toString()).append(" - ");
+			outlist.add(t);
 		}
 		String str = sb.toString();
-		// TODO fixme
-		LOGGER.setLevel(Level.TRACE);
 		LOGGER.trace(str);
 		LOGGER.info("Serving GET /task/list endpoint... DONE!");
-		return str;
+		return outlist;
     }
 	
 	@RequestMapping("/{uuid}")
-    public String getTask(@PathVariable(value="uuid")UUID uuid) {
+    public TaskDTO getTask(@PathVariable(value="uuid")UUID uuid) {
 		LOGGER.info("Serving GET /task/{uuid} endpoint...");
 		TaskDTO task = taskService.findOne(uuid);
 		LOGGER.info("Serving GET /task/{uuid} endpoint... DONE!");
-		return task.toString();
+		return task;
     }
 	
 	@RequestMapping(value = "/create", method = RequestMethod.POST)

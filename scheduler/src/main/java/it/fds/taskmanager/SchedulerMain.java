@@ -1,11 +1,13 @@
 package it.fds.taskmanager;
 
+import it.fds.taskmanager.scheduler.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration;
 import org.springframework.context.ApplicationContext;
+
 
 @SpringBootApplication
 @EnableAutoConfiguration(exclude = WebMvcAutoConfiguration.class)
@@ -15,7 +17,7 @@ public class SchedulerMain {
 	public Scheduler scheduler;
 	
 	private void start(){
-		scheduler.beepForAnHour();
+		scheduler.generateTask();
 	}
 	
 	public static void main(String [] args){
@@ -26,3 +28,4 @@ public class SchedulerMain {
 		
 	}
 }
+

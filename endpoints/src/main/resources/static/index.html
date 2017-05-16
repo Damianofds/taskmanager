@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.js">
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-route.js"></script>
+</head>
+<body ng-app="myApp">
+	<h1>Taskmanager</h1>
+	<h2>Mark as resolved or postpone tasks</h2>
+	<p>New tasks are generated randomly from the backend</p>
+
+	<div ng-view></div>
+
+	<script>
+		var app = angular.module('myApp', ["ngRoute"]);
+
+		app.config(function($routeProvider) {
+			$routeProvider.when("/", {
+				templateUrl : "list.html",
+				controller : "tasksListCtrl"
+			}).when("/task/:uuid", {
+				templateUrl : "detail.html",
+				controller : "taskDetailCtrl"
+			});
+		});
+
+		app.controller('tasksListCtrl', function($scope, $http) {
+			$http.get("task/list").then(function(response) {
+				$scope.tasks = response.data;
+			});
+		});
+
+		app.controller('taskDetailCtrl', function($scope, $http, $routeParams) {
+			$http.get("task/" + $routeParams.uuid).then(function(response) {
+				$scope.t = response.data;
+			});
+		});
+	</script>
+
+</body>
+</html>

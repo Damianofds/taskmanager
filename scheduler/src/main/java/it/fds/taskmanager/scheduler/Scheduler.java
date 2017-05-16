@@ -1,4 +1,4 @@
-package it.fds.taskmanager;
+package it.fds.taskmanager.scheduler;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -8,15 +8,14 @@ import java.util.concurrent.ScheduledFuture;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
 import it.fds.taskmanager.TaskService;
 import it.fds.taskmanager.dto.TaskDTO;
+import it.fds.taskmanager.tasksgenerator.TasksGenerator;
 
 @Component
-class Scheduler {
+public class Scheduler {
 
 	@Autowired
 	TaskService taskService;
@@ -25,20 +24,22 @@ class Scheduler {
 	
 	private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 	
+	@Autowired
+	private TasksGenerator basicTaskGenerator;
+	
 	public Scheduler(){}
 	
-	public void beepForAnHour() {
-		final Runnable beeper = new Runnable() {
+	public void generateTask() {
+		final Runnable generator = new Runnable() {
 			public void run() {
 				
-				TaskDTO task = new TaskDTO();
-				task.setTitle("A title");
-				task.setDescription("A description!");
+				TaskDTO task = basicTaskGenerator.generateTask();
+				
 				taskService.saveTask(task);
 				LOGGER.info("TASK SAVED!");
 			}
 		};
-		final ScheduledFuture<?> beeperHandle = scheduler.scheduleAtFixedRate(beeper, 5, 5, SECONDS);
+		final ScheduledFuture<?> beeperHandle = scheduler.scheduleAtFixedRate(generator, 5, 5, SECONDS);
 		scheduler.schedule(new Runnable() {
 			public void run() {
 				beeperHandle.cancel(true);
