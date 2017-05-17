@@ -22,8 +22,8 @@ public class TaskService {
 	@Autowired
 	private TasksRepository tasksRepo;
 	
-	public List<TaskDTO> findAll() {
-		List<Task> taskslist = tasksRepo.findAll();
+	public List<TaskDTO> showList() {
+		List<Task> taskslist = tasksRepo.findAllExcludePostponed();
 		List<TaskDTO> tasksDTO = new ArrayList<TaskDTO>();
 		for(Task t : taskslist){
 			TaskDTO tmpBean = new TaskDTO();
@@ -53,6 +53,7 @@ public class TaskService {
 	public TaskDTO updateTask(TaskDTO task) {
 		Task t = new Task();
 		BeanUtils.copyProperties(task, t);
+		t.setUpdatedat(Calendar.getInstance());
 		Task newTask = tasksRepo.save(t);
 		TaskDTO newTaskDTO = new TaskDTO(); 
 		BeanUtils.copyProperties(newTask, newTaskDTO);
@@ -62,16 +63,27 @@ public class TaskService {
 	public Boolean resolveTask(UUID uuid) {
 		Task t = tasksRepo.findByUuid(uuid);
 		t.setResolvedat(Calendar.getInstance());
+		t.setStatus(TaskState.RESOLVED.toString().toUpperCase());
 		tasksRepo.save(t);
 		return true;
 	}
 	
-	public Boolean postponeTask(UUID uuid) {
+	public Boolean postponeTask(UUID uuid, Integer timeMinute) {
 		Task t = tasksRepo.findByUuid(uuid);
-		t.setPostponedat(Calendar.getInstance());
-		//TODO fixme
-		t.setPostponedtime(10000l);
+		Calendar c = Calendar.getInstance();
+		c.add(Calendar.MINUTE, timeMinute);
+		t.setPostponedat(c);
+		t.setStatus(TaskState.POSTPONED.toString().toUpperCase());
 		tasksRepo.save(t);
 		return true;
+	}
+	
+	public void unmarkPostoned() {
+		List<Task> list = tasksRepo.findTaskToRestore();
+		for(Task t : list){
+			t.setPostponedat(null);
+			t.setStatus(TaskState.RESTORED.toString().toUpperCase());
+			tasksRepo.save(t);
+		}
 	}
 }

@@ -1,0 +1,55 @@
+<script>
+$scope.postit = function(){
+	$http.post("task/" + $routeParams.uuid, $scope.t).then(function(response) {
+		$http.get("task/list").then(function(response) {
+			$scope.tasks = response.data;
+			alert("Task uuid: '" + $routeParams.uuid + "' UPDATED!'");
+		});
+	});
+}
+</script>
+
+
+<form ng-submit="postit()" ng-controller="taskDetailCtrl">
+	
+	<a ng-href="#/"><- Back</a>	| <input type="submit" value="Submit" />
+	<br /><br />
+	<table class="hovertable">
+	    <tr>
+	    	<td>Title</td>
+	    	<td><input type="text" ng-model="t.title" /></td>
+	    </tr>
+	    <tr>
+	    	<td>Description</td>
+	    	<td><input type="text" ng-model="t.description" /></td>
+	   	</tr>
+	    <tr>
+	    	<td>Status</td>
+	    	<td><span>{{ t.status }}</span></td>
+	   	</tr>
+	    <tr>
+	    	<td>Duedate</td>
+	    	<td><input type="text" ng-model="t.createdat | date:'dd-MM-yyyy'" /></td>
+	   	</tr>
+	    <tr>
+	    	<td>Updated at</td>
+	    	<td><input type="text" ng-model="t.updatedat | date:'dd-MM-yyyy HH:mm:ss'" /></td>   	
+	   	</tr>
+	    <tr>
+	    	<td>Due date</td>
+	    	<td><input type="text" ng-model="t.duedate | date:'dd-MM-yyyy'" /></td>
+	   	</tr>
+	    <tr>
+	    	<td>Resolved At</td>
+	    	<td><input type="text" ng-model="t.resolvedat | date:'dd-MM-yyyy'" /></td>
+	   	</tr>
+	    <tr>
+	    	<td>Postponed at</td>
+	    	<td><input type="text" ng-model="t.postponedat | date:'dd-MM-yyyy HH:mm:ss'" /></td>
+	  	</tr>
+	    <tr>
+	    	<td>Priority</td>
+	    	<td><span>{{ t.priority }}<span/></td>
+	   	</tr>
+	</table>
+</form>

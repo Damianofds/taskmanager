@@ -1,28 +1,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.js">
-</script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-route.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-route.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/taskmanager.css">
 </head>
 <body ng-app="myApp">
-	<h1>Taskmanager</h1>
-	<h2>Mark as resolved or postpone tasks</h2>
-	<p>New tasks are generated randomly from the backend</p>
-
+	
+	<pre>
+  __                 __                                    ________              
+_/  |______    _____|  | __   _____ _____    ____ _____   /  _____/  ___________ 
+\   __\__  \  /  ___/  |/ /  /     \\__  \  /    \\__  \ /   \  ____/ __ \_  __ \
+ |  |  / __ \_\___ \|    <  |  Y Y  \/ __ \|   |  \/ __ \\    \_\  \  ___/|  | \/
+ |__| (____  /____  >__|_ \ |__|_|  (____  /___|  (____  /\______  /\___  >__|   
+           \/     \/     \/       \/     \/     \/     \/        \/     \/       
+	               --- Mark as resolved or postpone tasks ---
+	     ----- New tasks are generated randomly from the backend -----
+	</pre>
+	
 	<div ng-view></div>
-
 	<script>
 		var app = angular.module('myApp', ["ngRoute"]);
 
 		app.config(function($routeProvider) {
 			$routeProvider.when("/", {
-				templateUrl : "list.html",
+				templateUrl : "views/list.html",
 				controller : "tasksListCtrl"
 			}).when("/task/:uuid", {
-				templateUrl : "detail.html",
+				templateUrl : "views/detail.html",
 				controller : "taskDetailCtrl"
+			}).when("/task/:uuid/resolve", {
+				templateUrl : "views/list.html",
+				controller : "taskResolveCtrl"
+			}).when("/task/:uuid/postpone", {
+				templateUrl : "views/list.html",
+				controller : "taskPostponeCtrl"
+			}).when("/task/:uuid/update", {
+				templateUrl : "views/list.html",
+				controller : "taskUpdateCtrl"
 			});
 		});
 
@@ -33,10 +48,42 @@
 		});
 
 		app.controller('taskDetailCtrl', function($scope, $http, $routeParams) {
+			$scope.postit = function(){
+								$http.post("task/" + $routeParams.uuid, $scope.t).then(function(response) {
+										alertBox("Task uuid: '" + $routeParams.uuid + "' SAVED!'");
+										$http.get("task/" + $routeParams.uuid).then(function(response) {
+											$scope.t = response.data;
+										});
+								});
+							}
 			$http.get("task/" + $routeParams.uuid).then(function(response) {
 				$scope.t = response.data;
 			});
 		});
+		
+		app.controller('taskPostponeCtrl', function($scope, $http, $routeParams) {
+			$http.get("task/" + $routeParams.uuid + "/postpone", {params: { timeMinute: 1 }}).then(function(response) {
+				$scope.t = response.data;
+				$http.get("task/list").then(function(response) {
+					$scope.tasks = response.data;
+					alertBox("Task uuid: '" + $routeParams.uuid + "' marked as POSTPONED!'");
+				});
+			});
+		});
+		
+		app.controller('taskResolveCtrl', function($scope, $http, $routeParams) {
+			$http.get("task/" + $routeParams.uuid + "/resolve").then(function(response) {
+				$scope.t = response.data;
+				$http.get("task/list").then(function(response) {
+					$scope.tasks = response.data;
+					alertBox("Task uuid: '" + $routeParams.uuid + "' marked as RESOLVED!'");
+				});
+			});
+		});
+		
+		function alertBox(msg){
+			alert(msg);
+		}
 	</script>
 
 </body>

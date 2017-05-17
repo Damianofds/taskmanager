@@ -15,35 +15,35 @@ import it.fds.taskmanager.dto.TaskDTO;
 import it.fds.taskmanager.tasksgenerator.TasksGenerator;
 
 @Component
-public class Scheduler {
+public class SchedulerNewTasks {
 
 	@Autowired
 	TaskService taskService;
 	
-	private final Logger LOGGER = Logger.getLogger(Scheduler.class);
+	private final Logger LOGGER = Logger.getLogger(SchedulerNewTasks.class);
 	
 	private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 	
 	@Autowired
 	private TasksGenerator basicTaskGenerator;
 	
-	public Scheduler(){}
+	public SchedulerNewTasks(){}
 	
 	public void generateTask() {
-		final Runnable generator = new Runnable() {
+		final Runnable newTaskGenerator = new Runnable() {
 			public void run() {
 				
 				TaskDTO task = basicTaskGenerator.generateTask();
 				
 				taskService.saveTask(task);
-				LOGGER.info("TASK SAVED!");
+				LOGGER.info("New Task SAVED!");
 			}
 		};
-		final ScheduledFuture<?> beeperHandle = scheduler.scheduleAtFixedRate(generator, 5, 5, SECONDS);
+		final ScheduledFuture<?> fut1 = scheduler.scheduleAtFixedRate(newTaskGenerator, 5, 5, SECONDS);
 		scheduler.schedule(new Runnable() {
 			public void run() {
-				beeperHandle.cancel(true);
+				fut1.cancel(true);
 			}
-		}, 60 * 60, SECONDS);
+		}, 60*60, SECONDS);
 	}
 }

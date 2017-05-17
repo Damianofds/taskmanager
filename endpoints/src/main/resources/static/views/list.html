@@ -1,0 +1,19 @@
+<table class="hovertable" align="center">
+  <tr>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Status</th>
+    <th>Duedate</th>
+    <th>Priority</th>
+  </tr>
+  <tr ng-repeat="t in tasks | orderBy: '-duedate' | orderBy: '-priority' ">
+    <td>{{ t.title }}</td>
+    <td>{{ t.description }}</td>
+    <td>{{ t.status }}</td>
+    <td>{{ t.duedate | date:'dd-MM-yyyy'}}</td> <!-- HH:mm:ss Z -->
+    <td>{{ t.priority }}</td-->
+    <td><a title="Open the task details" alt="Open the task details" ng-href="#/task/{{ t.uuid }}" >VIEW</a></td>
+    <td><a title="Postpone a task for 1 minute" alt="Postpone a task for 1 minute" ng-href="#/task/{{ t.uuid }}/postpone" >POSTPONE</a></td>
+    <td><a title="Mark a task as resolved" alt="Mark a task as resolved" ng-href="#/task/{{ t.uuid }}/resolve">RESOLVE</a></td>
+  </tr>
+</table>

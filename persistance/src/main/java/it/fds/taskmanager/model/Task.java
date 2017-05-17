@@ -5,8 +5,14 @@ import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 @Entity
+@NamedQueries({
+	@NamedQuery(name = "Task.findTaskToRestore", query = "SELECT t FROM Task t WHERE t.status = 'POSTPONED' and t.postponedat < NOW()"),
+	@NamedQuery(name = "Task.findAllExcludePostponed", query = "SELECT t FROM Task t WHERE t.status != 'POSTPONED'")
+})
 public class Task {
 
 	@Id
@@ -102,10 +108,6 @@ public class Task {
 
 	public void setPostponedat(Calendar postponedat) {
 		this.postponedat = postponedat;
-	}
-
-	public Long getPostponedtime() {
-		return postponedtime;
 	}
 
 	public void setPostponedtime(Long postponedtime) {

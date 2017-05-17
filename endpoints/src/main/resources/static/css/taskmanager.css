@@ -1,0 +1,40 @@
+body{
+	text-align: center;
+	background-color: #181818;
+}
+pre, h1, h2, h3, a{
+	color: purple;
+}
+p{
+	color: white;
+}
+table{
+	margin-left:auto; 
+    margin-right:auto;
+}
+table.hovertable {
+	font-family: verdana,arial,sans-serif;
+	font-size:11px;
+	color:#333333;
+	border-width: 1px;
+	border-color: #999999;
+	border-collapse: collapse;
+}
+table.hovertable th {
+	background-color:#c3dde0;
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: lightgreen;
+	background-color:purple;
+}
+table.hovertable tr {
+	background-color:grey;
+	color: white;
+}
+table.hovertable td {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: lightgreen;
+}

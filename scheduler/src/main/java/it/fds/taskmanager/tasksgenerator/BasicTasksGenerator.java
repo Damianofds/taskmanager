@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
+import it.fds.taskmanager.TaskState;
 import it.fds.taskmanager.dto.TaskDTO;
 
 @Component
@@ -13,11 +14,6 @@ public class BasicTasksGenerator implements TasksGenerator{
 
 	private static Map<Integer,String> titles;
 	private static Map<Integer,String> descriptions;
-	public enum Status {
-		NEW,
-		POSTPONED,
-		RESOLVED;
-	}
 	
 	static{
 		titles = new HashMap<>();
@@ -61,7 +57,7 @@ public class BasicTasksGenerator implements TasksGenerator{
 		task.setUpdatedat(getNowDate());
 		task.setPostponedtime(null);
 		task.setResolvedat(null);
-		task.setStatus(Status.NEW.toString().toUpperCase());
+		task.setStatus(TaskState.NEW.toString().toUpperCase());
 
 		return task;
 	}

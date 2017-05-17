@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.fds.taskmanager.TaskService;
@@ -29,7 +30,7 @@ public class TasksController {
 		LOGGER.info("Serving GET /task/list endpoint...");
 		StringBuilder sb = new StringBuilder();
 		List<TaskDTO> outlist = new LinkedList<>();
-		for(TaskDTO t : taskService.findAll()){
+		for(TaskDTO t : taskService.showList()){
 			sb.append(t.toString()).append(" - ");
 			outlist.add(t);
 		}
@@ -56,23 +57,23 @@ public class TasksController {
 	}
 	
 	@RequestMapping(value = "/{uuid}", method = RequestMethod.POST)
-	public String updateTask(@PathVariable(value="uuid")UUID uuid, @RequestBody TaskDTO task) {
+	public Boolean updateTask(@PathVariable(value="uuid")UUID uuid, @RequestBody TaskDTO task) {
 		LOGGER.info("Serving POST /task/{uuid} endpoint...");
 		task.setUuid(uuid);
 		String taskId = taskService.updateTask(task).getUuid().toString();
 		LOGGER.info("Serving POST /task/{uuid} endpoint... DONE!");
-		return taskId;
+		return true;
 	}
 	
-	@RequestMapping(value = "/{uuid}/postpone", method = RequestMethod.POST)
-	public Boolean updateTask(@PathVariable(value="uuid")UUID uuid) {
+	@RequestMapping(value = "/{uuid}/postpone", method = RequestMethod.GET)
+	public Boolean postponeTask(@PathVariable(value="uuid")UUID uuid,  @RequestParam(value="timeMinute")Integer timeMinute) {
 		LOGGER.info("Serving POST /task/{uuid}/postpone endpoint...");
-		Boolean out = taskService.postponeTask(uuid);
+		Boolean out = taskService.postponeTask(uuid, timeMinute);
 		LOGGER.info("Serving POST /task/{uuid}/postpone endpoint... DONE!");
 		return out;
 	}
 	
-	@RequestMapping(value = "/{uuid}/resolve", method = RequestMethod.POST)
+	@RequestMapping(value = "/{uuid}/resolve", method = RequestMethod.GET)
 	public Boolean resolveTask(@PathVariable(value="uuid")UUID uuid) {
 		LOGGER.info("Serving POST /task/{uuid}/resolve endpoint...");
 		Boolean out = taskService.resolveTask(uuid);

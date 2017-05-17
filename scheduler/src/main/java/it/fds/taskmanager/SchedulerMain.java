@@ -14,10 +14,14 @@ import org.springframework.context.ApplicationContext;
 public class SchedulerMain {
 
 	@Autowired
-	public Scheduler scheduler;
+	public SchedulerNewTasks scheduler1;
+	
+	@Autowired
+	public SchedulerPostponedChecks scheduler2;
 	
 	private void start(){
-		scheduler.generateTask();
+		scheduler1.generateTask();
+		scheduler2.checkPostponed();
 	}
 	
 	public static void main(String [] args){
