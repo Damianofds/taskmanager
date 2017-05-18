@@ -1,0 +1,14 @@
+version: '3'
+services:
+  db:
+    image: postgres
+  web:
+    image: damianofds/web:latest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+  scheduler:
+    image: damianofds/scheduler:latest
+    depends_on:
+      - db
