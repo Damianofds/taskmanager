@@ -4,7 +4,7 @@ A spring4 + Angular exercise bulding a task management website
 
 ## Architecture
 
-![architecture](/doc/taskmanager.jpg?raw=true)
+![architecture](/doc/taskmanager.png?raw=true)
 
 you can have a look at a live drawing [here](https://docs.google.com/drawings/d/1Kst-gEPnU7SV6RhGqVKwuxKECHpmFvoV097tDaNgXAg).
 
