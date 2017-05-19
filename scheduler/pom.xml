@@ -73,25 +73,35 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	<build>
-            <plugins>
-                    <plugin>
-                        <groupId>com.spotify</groupId>
-                        <artifactId>dockerfile-maven-plugin</artifactId>
-                        <version>1.2.2</version>
-                        <executions>
-                          <execution>
-                            <id>default</id>
-                            <goals>
-                              <goal>build</goal>
-                              <goal>push</goal>
-                            </goals>
-                          </execution>
-                        </executions>
-                        <configuration>
-                          <repository>damianofds/scheduler</repository>
-                        </configuration>
-                     </plugin>
-            </plugins>
-        </build>
+	<profiles>
+        <profile>
+            <id>docker</id>
+            <activation>
+                <property>
+                    <name>docker</name>
+                </property>
+            </activation>
+			<build>
+		            <plugins>
+		                    <plugin>
+		                        <groupId>com.spotify</groupId>
+		                        <artifactId>dockerfile-maven-plugin</artifactId>
+		                        <version>1.2.2</version>
+		                        <executions>
+		                          <execution>
+		                            <id>default</id>
+		                            <goals>
+		                              <goal>build</goal>
+		                              <goal>push</goal>
+		                            </goals>
+		                          </execution>
+		                        </executions>
+		                        <configuration>
+		                          <repository>damianofds/scheduler</repository>
+		                        </configuration>
+		                     </plugin>
+		            </plugins>
+		        </build>
+	        </profile>
+        </profiles>
 </project>

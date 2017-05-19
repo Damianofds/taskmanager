@@ -9,6 +9,17 @@ import org.springframework.stereotype.Component;
 import it.fds.taskmanager.TaskState;
 import it.fds.taskmanager.dto.TaskDTO;
 
+/**
+ * Implements a very basic task generator useful for testing.
+ * All the task properties are generated choosing among:
+ * <ol>
+ * 	<li><strong>for text fields</strong> randomly from an hardcoded list of titles and descriptions</li>
+ * 	<li><strong>for date fields</strong> randomly around the current date</li>
+ * </ol> 
+ *  
+ * @author fds
+ *
+ */
 @Component
 public class BasicTasksGenerator implements TasksGenerator{
 

@@ -14,6 +14,12 @@ import it.fds.taskmanager.TaskService;
 import it.fds.taskmanager.dto.TaskDTO;
 import it.fds.taskmanager.tasksgenerator.TasksGenerator;
 
+/**
+ * Create and schedule new Tasks
+ * 
+ * @author fds
+ *
+ */
 @Component
 public class SchedulerNewTasks {
 

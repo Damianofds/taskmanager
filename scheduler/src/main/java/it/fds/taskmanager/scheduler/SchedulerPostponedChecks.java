@@ -12,6 +12,12 @@ import org.springframework.stereotype.Component;
 
 import it.fds.taskmanager.TaskService;
 
+/**
+ * Search for postponed tasks that must be reactivated
+ * 
+ * @author fds
+ *
+ */
 @Component
 public class SchedulerPostponedChecks {
 	
@@ -33,7 +39,7 @@ public class SchedulerPostponedChecks {
 				LOGGER.info("Tasks unmarked!");
 			}
 		};
-		final ScheduledFuture<?> fut2 = scheduler.scheduleAtFixedRate(solvePostponedgenerator, 5, 5, SECONDS);
+		final ScheduledFuture<?> fut2 = scheduler.scheduleAtFixedRate(solvePostponedgenerator, 5, 5, SECONDS);//TODO externalize the interval!
 		scheduler.schedule(new Runnable() {
 			public void run() {
 				fut2.cancel(true);

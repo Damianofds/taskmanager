@@ -1,15 +1,3 @@
-<script>
-$scope.postit = function(){
-	$http.post("task/" + $routeParams.uuid, $scope.t).then(function(response) {
-		$http.get("task/list").then(function(response) {
-			$scope.tasks = response.data;
-			alert("Task uuid: '" + $routeParams.uuid + "' UPDATED!'");
-		});
-	});
-}
-</script>
-
-
 <form ng-submit="postit()" ng-controller="taskDetailCtrl">
 	
 	<a ng-href="#/"><- Back</a>	| <input type="submit" value="Submit" />

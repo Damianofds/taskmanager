@@ -5,6 +5,9 @@
     <th>Status</th>
     <th>Duedate</th>
     <th>Priority</th>
+    <th></th>
+    <th>Postpone</th>
+    <th></th>
   </tr>
   <tr ng-repeat="t in tasks | orderBy: '-duedate' | orderBy: '-priority' ">
     <td>{{ t.title }}</td>
@@ -12,8 +15,11 @@
     <td>{{ t.status }}</td>
     <td>{{ t.duedate | date:'dd-MM-yyyy'}}</td> <!-- HH:mm:ss Z -->
     <td>{{ t.priority }}</td-->
-    <td><a title="Open the task details" alt="Open the task details" ng-href="#/task/{{ t.uuid }}" >VIEW</a></td>
-    <td><a title="Postpone a task for 1 minute" alt="Postpone a task for 1 minute" ng-href="#/task/{{ t.uuid }}/postpone" >POSTPONE</a></td>
-    <td><a title="Mark a task as resolved" alt="Mark a task as resolved" ng-href="#/task/{{ t.uuid }}/resolve">RESOLVE</a></td>
+    <td><a title="Open the task details" alt="Open the task details" ng-href="#/task/{{ t.uuid }}" ><strong>VIEW</strong></a></td>
+    <td>
+    	<a title="Postpone a task for 1 minute" alt="Postpone a task for 1 minute" ng-href="#/task/{{ t.uuid }}/postpone" ><strong>1</strong></a> |
+ 		<a title="Postpone a task for 10 minutes" alt="Postpone a task for 10 minutes" ng-href="#/task/{{ t.uuid }}/postpone" ><strong>10</strong></a>&nbsp;<span>mins </span>
+	</td>
+    <td><a title="Mark a task as resolved" alt="Mark a task as resolved" ng-href="#/task/{{ t.uuid }}/resolve"><strong>RESOLVE</strong></a></td>
   </tr>
 </table>

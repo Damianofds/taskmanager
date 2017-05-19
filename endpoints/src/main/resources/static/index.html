@@ -49,20 +49,24 @@ _/  |______    _____|  | __   _____ _____    ____ _____   /  _____/  ___________
 
 		app.controller('taskDetailCtrl', function($scope, $http, $routeParams) {
 			$scope.postit = function(){
-								$http.post("task/" + $routeParams.uuid, $scope.t).then(function(response) {
-										alertBox("Task uuid: '" + $routeParams.uuid + "' SAVED!'");
-										$http.get("task/" + $routeParams.uuid).then(function(response) {
-											$scope.t = response.data;
-										});
-								});
-							}
+				$http.post("task/" + $routeParams.uuid, $scope.t).then(function(response) {
+						alertBox("Task uuid: '" + $routeParams.uuid + "' SAVED!'");
+						$http.get("task/" + $routeParams.uuid).then(function(response) {
+							$scope.t = response.data;
+						});
+				});
+			}
 			$http.get("task/" + $routeParams.uuid).then(function(response) {
 				$scope.t = response.data;
 			});
 		});
 		
 		app.controller('taskPostponeCtrl', function($scope, $http, $routeParams) {
-			$http.get("task/" + $routeParams.uuid + "/postpone", {params: { timeMinute: 1 }}).then(function(response) {
+			$http({
+					url: "task/" + $routeParams.uuid + "/postpone",
+					method: 'POST',
+					data: 1
+			}).then(function(response) {
 				$scope.t = response.data;
 				$http.get("task/list").then(function(response) {
 					$scope.tasks = response.data;
@@ -72,7 +76,7 @@ _/  |______    _____|  | __   _____ _____    ____ _____   /  _____/  ___________
 		});
 		
 		app.controller('taskResolveCtrl', function($scope, $http, $routeParams) {
-			$http.get("task/" + $routeParams.uuid + "/resolve").then(function(response) {
+			$http.post("task/" + $routeParams.uuid + "/resolve").then(function(response) {
 				$scope.t = response.data;
 				$http.get("task/list").then(function(response) {
 					$scope.tasks = response.data;
@@ -85,6 +89,5 @@ _/  |______    _____|  | __   _____ _____    ____ _____   /  _____/  ___________
 			alert(msg);
 		}
 	</script>
-
 </body>
 </html>

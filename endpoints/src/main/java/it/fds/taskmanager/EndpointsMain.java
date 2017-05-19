@@ -5,6 +5,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+/**
+ * Launcher class for the Frontend, angular UI + REST API
+ * 
+ * @author fds
+ *
+ */
 @EnableJpaRepositories
 @Configuration
 @SpringBootApplication
