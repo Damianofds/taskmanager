@@ -1,7 +1,12 @@
 # taskmanager
 A spring4 + Angular exercise bulding a task management website
 
-You can have a look at a drawing of its architecture [here](https://docs.google.com/drawings/d/1Kst-gEPnU7SV6RhGqVKwuxKECHpmFvoV097tDaNgXAg).
+
+## Architecture
+
+![architecture](/doc/taskmanager.jpg?raw=true)
+
+you can have a look at a live drawing [here](https://docs.google.com/drawings/d/1Kst-gEPnU7SV6RhGqVKwuxKECHpmFvoV097tDaNgXAg).
 
 ## Requirements
 
@@ -57,7 +62,6 @@ If you want also to produce the Docker images for both components add the profil
 
 Open the browser at http://localhost:8080 and have fun!
 
-
-
+![preview](/doc/preview.jpg?raw=true)
 
 
