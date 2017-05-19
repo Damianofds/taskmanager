@@ -1,7 +1,10 @@
 version: '3'
 services:
   db:
-    image: postgres
+    environment:
+      POSTGRES_PASSWORD: t4sk
+      POSTGRES_USER: task
+      POSTGRES_DB: tasks_dbt
   web:
     image: damianofds/web:latest
     ports:
