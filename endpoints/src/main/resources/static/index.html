@@ -4,6 +4,8 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-route.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/taskmanager.css">
+	<script src="https://cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 </head>
 <body ng-app="myApp">
 	
@@ -44,6 +46,7 @@ _/  |______    _____|  | __   _____ _____    ____ _____   /  _____/  ___________
 		app.controller('tasksListCtrl', function($scope, $http) {
 			$http.get("task/list").then(function(response) {
 				$scope.tasks = response.data;
+				connect($scope);
 			});
 		});
 
@@ -84,6 +87,52 @@ _/  |______    _____|  | __   _____ _____    ____ _____   /  _____/  ___________
 				});
 			});
 		});
+		
+
+		function connect($scope) {
+		    var socket = new SockJS('/gettasks');
+		    stompClient = Stomp.over(socket);
+		    stompClient.connect({}, function (frame) {
+		        //setConnected(true);
+		        console.log('Connected: ' + frame);
+		        stompClient.subscribe('/topic/tasks', function (task) {
+		        	console.log(task.body);
+		        	console.log($scope)
+		        	$scope.$apply(function(){
+		        		json = JSON.parse(task.body)
+		        		$scope.tasks.push({
+		        			'title': json["title"],
+		        		    'description': json["description"],
+		        		    'status': json["status"],
+		        		    'duedate': json["duedate"],
+		        		    'priority': json["priority"],
+		        		    'uuid': json["uuid"]
+		        		});
+						}
+					)
+		        });
+		    });
+		}
+		
+		function disconnect() {
+ 			if (stompClient != null) {
+		        stompClient.disconnect();
+		    }
+		    setConnected(false);
+		    console.log("Disconnected");
+		}
+
+		function log(message) {
+			var console = document.getElementById('console');
+			var p = document.createElement('p');
+			p.style.wordWrap = 'break-word';
+			p.appendChild(document.createTextNode(message));
+			console.appendChild(p);
+			while (console.childNodes.length > 25) {
+				console.removeChild(console.firstChild);
+			}
+			console.scrollTop = console.scrollHeight;
+		}
 		
 		function alertBox(msg){
 			alert(msg);

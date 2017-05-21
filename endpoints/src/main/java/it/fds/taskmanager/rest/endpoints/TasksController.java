@@ -4,8 +4,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.websocket.OnClose;
+import javax.websocket.OnOpen;
+import javax.websocket.Session;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +35,9 @@ public class TasksController {
     
     @Autowired
 	private TaskService taskService;
+    
+    @Autowired
+    private SimpMessagingTemplate template;
     
     /**
      * Load the tasks except those marked as POSTPONED
@@ -71,7 +79,7 @@ public class TasksController {
 	 * @param task data to use to inizialize the task
 	 * @return the new task UUID
 	 */
-	@RequestMapping(value = "/create", method = RequestMethod.PUT)
+	//@RequestMapping(value = "/create", method = RequestMethod.PUT)
 	public String createTask(@RequestBody TaskDTO task) {
 		LOGGER.info("Serving POST /task/create endpoint...");
 		String taskId = taskService.saveTask(task).getUuid().toString();
@@ -124,4 +132,21 @@ public class TasksController {
 		return out;
 	}
 	
+	/**
+	 * Get notified of the presence of new task
+	 * 
+	 * @param task
+	 * @return
+	 */
+	@RequestMapping(value = "/notify", method = RequestMethod.POST)
+	public Boolean notify(@RequestBody String uuid) {
+		LOGGER.info("Serving POST /notify endpoint...");
+		// TODO
+		String cleanUuid = uuid.substring(1,uuid.length()-1);
+		UUID _uuid = UUID.fromString(cleanUuid);
+		TaskDTO t = taskService.findOne(_uuid);
+		this.template.convertAndSend("/topic/tasks", t);
+		LOGGER.info("Serving POST /notify endpoint... DONE!");
+		return true;
+	}
 }

@@ -2,13 +2,20 @@ package it.fds.taskmanager.scheduler;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 
 import it.fds.taskmanager.TaskService;
 import it.fds.taskmanager.dto.TaskDTO;
@@ -40,9 +47,17 @@ public class SchedulerNewTasks {
 			public void run() {
 				
 				TaskDTO task = basicTaskGenerator.generateTask();
+				TaskDTO newt = taskService.saveTask(task);
 				
-				taskService.saveTask(task);
-				LOGGER.info("New Task SAVED!");
+				RestTemplate rt = new RestTemplate();
+				ResponseEntity<String> result = null;
+				try {
+					result = rt.postForEntity(new URI("http://localhost:8080/task/notify"), newt.getUuid(), String.class);
+					LOGGER.info("Result of the notify call: '" + result + "'");
+					LOGGER.info("New Task SAVED!");
+				} catch (RestClientException | URISyntaxException e) {
+					e.printStackTrace();
+				}
 			}
 		};
 		final ScheduledFuture<?> fut1 = scheduler.scheduleAtFixedRate(newTaskGenerator, 5, 5, SECONDS);
