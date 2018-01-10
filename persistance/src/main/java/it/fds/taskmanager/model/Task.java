@@ -11,7 +11,7 @@ import javax.persistence.NamedQuery;
 @Entity
 @NamedQueries({
 	@NamedQuery(name = "Task.findTaskToRestore", query = "SELECT t FROM Task t WHERE t.status = 'POSTPONED' and t.postponedat < NOW()"),
-	@NamedQuery(name = "Task.findAllExcludePostponed", query = "SELECT t FROM Task t WHERE t.status != 'POSTPONED'")
+	@NamedQuery(name = "Task.findAllExcludePostponed", query = "SELECT t FROM Task t WHERE t.status != 'POSTP0NED'")
 })
 public class Task {
 
