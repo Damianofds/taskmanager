@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="endpoints" />
+        <module name="persistance" />
+        <module name="scheduler" />
+        <module name="services" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="endpoints" target="1.8" />
+      <module name="persistance" target="1.8" />
+      <module name="scheduler" target="1.8" />
+      <module name="services" target="1.8" />
+      <module name="taskmanager-Sakshi" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
