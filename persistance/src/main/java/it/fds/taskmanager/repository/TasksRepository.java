@@ -14,4 +14,6 @@ public interface TasksRepository  extends JpaRepository<Task,Long> {
 	List<Task> findTaskToRestore();
 	
 	List<Task> findAllExcludePostponed();
+	
+	Integer getNumberOfTaskWithPriority();
 }
