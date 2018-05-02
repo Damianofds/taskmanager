@@ -84,4 +84,9 @@ Open the browser at http://localhost:8080 and have fun!
 
 ![preview](/doc/preview.jpg?raw=true)
 
+### API documentation 
 
+| Method | URL Template                | Class                                               |Description                                           |
+| ------ | ------------                | -----                                               |-----------                                           |
+| GET    | /report/status/{taskState}  | it.fds.taskmanager.rest.endpoints.ReportController  | Return number of tasks with with specific **status** |
+| GET    | /report/priority/{priority} | it.fds.taskmanager.rest.endpoints.ReportController  | Return number of tasks with specific **priority**    |
