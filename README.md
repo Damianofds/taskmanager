@@ -65,10 +65,10 @@ and by default are configured for postgres, the web component is set to CREATE-D
 
 If you don't use the dockerized environment (Options 1 and 2) you have to take care on configure a postgres instance (or drop all the postgres properties and use H2 in memory)
 
-### Option 1 - download and run the jar files
-* Download the [web](http://80.241.213.140/taskmanager/endpoints-0.1-SNAPSHOT.jar) and the [scheduler](http://80.241.213.140/taskmanager/scheduler-0.1-SNAPSHOT.jar) jar files
+### Option 1 - build and run the jar files
+* Build the *web* and the *scheduler* jars files as reported in the **Build** section. You will end up having `endpoints-0.1-SNAPSHOT.jar` and `scheduler-0.1-SNAPSHOT.jar` in your local maven repo
 * Create the database as described in *Database configuration*
-* place them in a convinient location and the run ``java -jar`` first web then scheduler module.
+* place the jars in a convinient location and the run ``java -jar`` first web then scheduler module.
 
 ### Option 2 - run from eclipse
 * Create the database as described in *Database configuration*
