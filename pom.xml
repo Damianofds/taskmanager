@@ -6,7 +6,11 @@
 	<artifactId>mvn-spring-project</artifactId>
 	<packaging>pom</packaging>
 	<version>0.1-SNAPSHOT</version>
-	<name>mvn-spring-project</name>
+    <modules>
+        <module>IntegrationTestofRestAPI</module>
+        <module>IntegrationTest</module>
+    </modules>
+    <name>mvn-spring-project</name>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
