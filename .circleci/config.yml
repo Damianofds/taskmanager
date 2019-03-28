@@ -1,0 +1,34 @@
+# Java Maven CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-java/ for more details
+#
+version: 2
+jobs:
+  builds:
+    working_directory: ~/cci
+    docker:
+      - image: maven:3.6.0-jdk-8
+    steps:
+      - checkout
+      - run:
+          name: maven build web 
+          command: 'mvn clean install -Pweb'
+      - run:
+          name: maven build scheduler 
+          command: 'mvn clean install -Pscheduler'
+      - store_artifacts:
+          path: endpoints/target/endpoints-0.1-SNAPSHOT.jar
+      - store_artifacts:
+          path: scheduler/target/scheduler-0.1-SNAPSHOT.jar  
+      - save_cache: 
+          paths:
+            - ~/.m2
+          key: cci-{{ checksum "pom.xml" }}
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - builds:
+          filters:
+            branches:
+              only: master
