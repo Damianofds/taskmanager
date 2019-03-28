@@ -1,17 +1,68 @@
-version: '3'
+# version: '3.2'
+
+# services:
+#   postgres:
+#     container_name: postgres
+#     image: postgres
+#     expose:
+#       - "5432"
+#     restart: always
+#     environment:
+#       POSTGRES_PASSWORD: postgres
+#       POSTGRES_USER: postgres
+#       POSTGRES_DB: taskmanager
+#   web:
+#     build: 
+#       context: .
+#       dockerfile: ./Dockerfile-web-compose
+#     image: endpoint:compose
+#     ports:
+#       - "8080:8080"
+#     restart: always
+#     depends_on:
+#       - postgres
+#   scheduler:
+#     build: 
+#       context: .
+#       dockerfile: ./Dockerfile-scheduler-compose
+#     image: scheduler:compose
+#     restart: always
+#     expose:
+#       - "9090"
+#     depends_on:
+#       - postgres
+
+## Uncomment this if you want to build maven locally and start containers
+version: '3.2'
+
 services:
-  db:
+  postgres:
+    container_name: postgres
+    image: postgres
+    expose:
+      - "5432"
+    restart: always
     environment:
-      POSTGRES_PASSWORD: t4sk
-      POSTGRES_USER: task
-      POSTGRES_DB: tasks_dbt
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: taskmanager
   web:
-    image: damianofds/web:latest
+    build: 
+      context: .
+      dockerfile: ./Dockerfile-web-localhost
+    image: endpoint:localhost
+    restart: always
     ports:
       - "8080:8080"
     depends_on:
-      - db
+      - postgres
   scheduler:
-    image: damianofds/scheduler:latest
+    build: 
+      context: .
+      dockerfile: ./Dockerfile-scheduler-localhost
+    image: scheduler:localhost
+    restart: always
+    expose:
+      - "9090"
     depends_on:
-      - db
+      - web

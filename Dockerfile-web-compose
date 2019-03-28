@@ -1,0 +1,12 @@
+FROM maven:3.6.0-jdk-8 as BUILD
+RUN apt-get update && apt-get install
+WORKDIR /home
+COPY . /home
+RUN mvn clean install -Pweb
+
+
+FROM anapsix/alpine-java
+WORKDIR /home
+COPY --from=BUILD  /home/endpoints/target/endpoints-0.1-SNAPSHOT.jar /home/
+CMD ["java", "-jar", "/home/endpoints-0.1-SNAPSHOT.jar"]
+

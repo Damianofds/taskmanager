@@ -52,7 +52,7 @@ public class SchedulerNewTasks {
 				RestTemplate rt = new RestTemplate();
 				ResponseEntity<String> result = null;
 				try {
-					result = rt.postForEntity(new URI("http://localhost:8080/task/notify"), newt.getUuid(), String.class);
+					result = rt.postForEntity(new URI("http://web:8080/task/notify"), newt.getUuid(), String.class);
 					LOGGER.info("Result of the notify call: '" + result + "'");
 					LOGGER.info("New Task SAVED!");
 				} catch (RestClientException | URISyntaxException e) {

@@ -1,0 +1,7 @@
+FROM anapsix/alpine-java
+
+WORKDIR /home
+
+COPY scheduler/target/scheduler-0.1-SNAPSHOT.jar /home/
+
+CMD ["java", "-jar", "/home/scheduler-0.1-SNAPSHOT.jar"]

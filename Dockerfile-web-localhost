@@ -1,0 +1,7 @@
+FROM anapsix/alpine-java
+
+WORKDIR /home
+
+COPY endpoints/target/endpoints-0.1-SNAPSHOT.jar /home/
+
+CMD ["java", "-jar", "/home/endpoints-0.1-SNAPSHOT.jar"]
